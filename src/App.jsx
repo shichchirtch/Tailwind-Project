@@ -9,19 +9,35 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import Thanks from "./pages/Thanks";
 
+import fetchCat from "./loader/categoriesLoader.js";
+import fetchProd from "./loader/productsLoader.js";
+import ErrorBoundary from "./errorBound/errorBound.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true,
+        element: <Home />,
+        loader: fetchCat,
+      errorElement:<ErrorBoundary/>},
       { path: "old-home", element: <Navigate to={"/"} /> },
       { path: "about", element: <About /> },
       { path: "cart", element: <Cart /> },
       { path: "thanks", element: <Thanks /> },
-      { path: "category/:categoryId", element: <Category />,  errorElement: <div>Oops! Something went wrong.</div>,},
-      { path: "product/:productId", element: <ProductDetails /> },
-      { path: "*", element: <NotFound /> },
+
+      { path: "category/:categoryId",
+        element: <Category />,
+        loader: fetchProd,
+        errorElement:<ErrorBoundary/>,
+
+      },
+      { path: "product/:productId",
+        element: <ProductDetails />,
+        errorElement:<ErrorBoundary/>
+      },
+      { path: "*", element: <ErrorBoundary/> },
       // { path: "*", element: <Navigate to="/" /> },
     ],
   },

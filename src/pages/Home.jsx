@@ -1,17 +1,21 @@
 import { Link, useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
-import { categories } from "../data/data";
+
+
 
 function Home() {
   const location = useLocation();
   console.log(location);
+
+    const categories = useLoaderData(); // <--- сюда приходит массив
+    console.log('categor =  //// ////', categories)
 
   return (
     <div className='py-10 sm:py-16'>
       <h1 className='text-center mb-8 font-semibold text-4xl font-times text-primary'
           style={{ fontFamily: "Times New Roman, serif" }}
       >Categories</h1>
-
 
       <ul className='grid grid-cols-3 gap-3 px-20 font-serif  '>
         {categories.map((category) => (

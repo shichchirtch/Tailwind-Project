@@ -1,12 +1,14 @@
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
-import { products } from "../data/data";
+import {Link, useLoaderData, useLocation, useParams, useSearchParams} from "react-router-dom";
+// import { products } from "../data/data";
+// import fetchCat from "../loader/categoriesLoader.js";
 
 function Category() {
   const { categoryId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const products = useLoaderData();
   const location = useLocation();
   console.log(location);
+  console.log('produkty = ', products)
 
   // const maxPrice = searchParams.get("maxPrice") ? Number(searchParams.get("maxPrice")) : Infinity;
     const maxPrice = location.state?.maxPrice ?? Infinity;
@@ -38,9 +40,12 @@ function Category() {
       <ul  className='grid grid-cols-3 gap-4 px-5 '
           >
         {currentCategoryArray.map((product) => (
+
           <li key={product.name}>
               <Link  className='text-xl font-semibold text-white
-            relative flex flex-col items-center justify-center group' to={`/product/${product.id}`}>
+            relative flex flex-col items-center
+             justify-center group' state={product}
+                     to={`/product/${product.id}`}>
                 <span className='absolute z-10  text-[calc(2vw+3px)]
                  group-hover:text-red-500 transition duration-1000 text-center '>
                     <div className='mb-5'>{product.name}</div> <br/> {product.price}$</span>
